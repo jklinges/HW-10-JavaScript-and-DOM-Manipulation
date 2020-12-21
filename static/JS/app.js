@@ -1,58 +1,68 @@
-// Variables
+// from data.js
+var tableData = data;
+
+// YOUR CODE HERE!
+var tbody = d3.select("tbody")
+
+console.log(tableData);
+
+function buildTable(tableData) {
+
+tbody.html("")
+
+tableData.forEach((ufoSighting) => {
+    console.log(ufoSighting);
+    var row = tbody.append("tr")
+
+    Object.entries(ufoSighting).forEach(([key, value]) => {
+        var cell = row.append("td");
+        cell.text(value);
+    })
+
+});
+};
+
+buildTable(tableData);
+
 var button = d3.select("#filter-btn");
-var inputField1 = d3.select("#date");
-var inputField2 = d3.select("#city");
-var tbody = d3.select("tbody");
-var resetbtn = d3.select("#reset-btn");
-var columns = ["date", "city", "state", "country", "shape", "duration", "comments"]
+var input = d3.select("#form");
 
-var populate = (dataInput) => {
+button.on("click", runEnter);
+input.on("submit", runEnter);
 
-  dataInput.forEach(ufo_sightings => {
-    var row = tbody.append("tr");
-    columns.forEach(column => row.append("td").text(ufo_sightings[column])
-    )
-  });
-}
+var filters = {};
 
-//Populate table
-populate(data);
 
-// Filter by attribute
-button.on("click", () => {
-  d3.event.preventDefault();
-  var inputDate = inputField1.property("value").trim();
-  var inputCity = inputField2.property("value").toLowerCase().trim();
-  // Filter by field matching input value
-  var filterDate = data.filter(data => data.datetime === inputDate);
-  console.log(filterDate)
-  var filterCity = data.filter(data => data.city === inputCity);
-  console.log(filterCity)
-  var filterData = data.filter(data => data.datetime === inputDate && data.city === inputCity);
-  console.log(filterData)
+function multiFilter() {
 
-  // Add filtered sighting to table
-  tbody.html("");
+    var changedElement = d3.select(this).select("input");
+    var valueElement = changedElement.property("value");
+    var filterID = changedElement.attr("id");
 
-  let response = {
-    filterData, filterCity, filterDate
-  }
-
-  if (response.filterData.length !== 0) {
-    populate(filterData);
-  }
-    else if (response.filterData.length === 0 && ((response.filterCity.length !== 0 || response.filterDate.length !== 0))){
-      populate(filterCity) || populate(filterDate);
-  
+    if (valueElement){
+        filters[filterID] = valueElement;
+    } else 
+        {
+        delete filters[filterID];
+        };
+    runEnter();
     }
-    else {
-      tbody.append("tr").append("td").text("No results found!"); 
-    }
-})
 
-resetbtn.on("click", () => {
-  tbody.html("");
-  populate(data)
-  console.log("Table reset")
-})
+function runEnter() {
+
+    d3.event.preventDefault();
+
+    Object.entries(filters).forEach(([key, value])=> {
+
+        filteredData = tableData.filter(row => row[key] === value);
+
+    });
+    
+    console.log(filteredData);
+
+    buildTable(filteredData);
+
+};
+
+d3.selectAll(".filter").on("change", multiFilter)
 
