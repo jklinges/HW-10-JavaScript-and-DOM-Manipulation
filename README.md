@@ -5,7 +5,8 @@ This is the personal project for unit (Intro-To_javascript) of Data Visualizatio
 Built an interactive dashboard to explore the UFO sighting, with the dataset provided by the instructor. More details about the project can be found here.
 A snapshot of the app:
 
-Link to the app: (https://jklinges.github.io/JavaScriptUFOsightings/)
+Link to the app: (https://github.com/jklinges/jklinges.github.io/tree/main/HW-10-JavaScript-and-DOM-Manipulation)       
+
 The tools used in buliding this app: D3.js, Bootstrap, jQuery.js.
 Usage of the app
 Playing on the link to the app: choose and input a data from the list of possible dates on the left side of the page. On clicking the "Button", a table will be created for UFO sightings for that given date. Furthermore, a line of new filters "date", "city", "state", "country", "shape" will appear at the bottom of the table. When you click a filter, a dropdown manu with possible values can be seen. As you choose a value, a new table would appear below the line of filters.
